@@ -1,5 +1,6 @@
 package com.staskaledin.main;
 
+import javax.ws.rs.BadRequestException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class Game {
     }
 
     private long totalGamesCount;
-    private Map<? extends Player, Long> playerScores;
+//    private Map<? extends Player, Long> playerScores;
 
 
     private Game() {
@@ -29,7 +30,7 @@ public class Game {
 
     private void addPlayer(Player player){
         players.add(player);
-    };
+    }
 
     public void doStep(){
         System.out.println("Count players "+players.size());
@@ -50,10 +51,10 @@ public class Game {
                 player2.addResult(player1, player2Action, player1Action);
             }
         }
-    };
+    }
     public long getSummaryScore(){
         return totalGameScore;
-    };
+    }
 //    public double getAverageScoreForType(Class<T> type);
 
     public static class Builder{
@@ -118,7 +119,9 @@ public class Game {
             }
 
             if(game.players.size() <= 1)
-                throw new IllegalStateException("You must add at least 2 player");
+                throw new BadRequestException("You must add at least 2 player");
+            if(game.players.size() > 200)
+                throw new BadRequestException("Max players count in command is 200");
 
             return game;
         }
