@@ -12,6 +12,7 @@ import java.net.URI;
 public class Main {
 
     public static void main(String[] args) throws Exception{
+
         URI uri = UriBuilder.fromUri("http://localhost").port(1234).build();
         ResourceConfig config = new ResourceConfig();
         config.register(DoGame.class);
@@ -30,7 +31,12 @@ public class Main {
             }
         }, "shutdownHook"));
 
-        server.start();
-        Thread.currentThread().join();
+        try {
+            server.start();
+            System.out.println("Server started. Press <Enter> to stop it");
+            System.in.read();
+        }finally {
+            server.shutdown();
+        }
     }
 }
