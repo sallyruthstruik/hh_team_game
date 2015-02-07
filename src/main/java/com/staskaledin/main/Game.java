@@ -1,9 +1,9 @@
 package com.staskaledin.main;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import javax.ws.rs.BadRequestException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by stas on 06.02.15.
@@ -32,25 +32,89 @@ public class Game {
         players.add(player);
     }
 
+    private Iterator<List<Player>> allIterator(){
+        return new Iterator<List<Player>>() {
+            int i=0, j=1;
+
+            @Override
+            public boolean hasNext() {
+                return i<players.size() - 1 && j < players.size();
+            }
+
+            @Override
+            public List<Player> next() {
+                try {
+                    return Arrays.asList(new Player[]{players.get(i), players.get(j)});
+                }finally {
+                    if(j == players.size()){
+                        i ++;
+                        j = i+1;
+                    }else{
+                        j++;
+                    }
+                }
+            }
+
+            @Override
+            public void remove() {
+                throw new NotImplementedException();
+            }
+        };
+    }
+
+    private Iterator<List<Player>> randomIterator(){
+        return new Iterator<List<Player>>() {
+
+            int position;
+            Random rand = new Random();
+            int count = rand.nextInt(players.size()/4);
+
+            @Override
+            public boolean hasNext() {
+                return position < count;
+            }
+
+            @Override
+            public List<Player> next() {
+                try {
+                    return Arrays.asList(new Player[]{players.get(rand.nextInt(players.size())),
+                            players.get(rand.nextInt(players.size()))});
+                }finally {
+                    position ++ ;
+                }
+            }
+
+            @Override
+            public void remove() {
+                throw new NotImplementedException();
+            }
+        };
+    }
+
     public void doStep(){
         System.out.println("Count players "+players.size());
-        for(int i=0; i<players.size()-1; i++){
-            for(int j=i+1; j<players.size(); j++){
-                Player player1 = players.get(i);
-                Player player2 = players.get(j);
 
-                PlayerActions player1Action = player1.getAction(player2);
-                PlayerActions player2Action = player2.getAction(player1);
+        Iterator<List<Player>> it = randomIterator();
 
-                ScoreCounter sc = new ScoreCounter(player1Action, player2Action);
+        while(it.hasNext()) {
+            List<Player> pair = it.next();
 
-                totalGameScore += sc.getSummaryScore();
-                totalGamesCount += 1;
+            Player player1 = pair.get(0);
+            Player player2 = pair.get(1);
 
-                player1.addResult(player2, player1Action, player2Action);
-                player2.addResult(player1, player2Action, player1Action);
-            }
+            PlayerActions player1Action = player1.getAction(player2);
+            PlayerActions player2Action = player2.getAction(player1);
+
+            ScoreCounter sc = new ScoreCounter(player1Action, player2Action);
+
+            totalGameScore += sc.getSummaryScore();
+            totalGamesCount += 1;
+
+            player1.addResult(player2, player1Action, player2Action);
+            player2.addResult(player1, player2Action, player1Action);
         }
+
+
     }
     public long getSummaryScore(){
         return totalGameScore;
