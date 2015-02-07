@@ -20,13 +20,13 @@ public class ScoreCounter {
      */
     private long[] getScores(){
         if(action1 == PlayerActions.COOPERATE && action2 == PlayerActions.COOPERATE)
-            return new long[]{5, 5};
+            return new long[]{1, 1};
         else if(action1 == PlayerActions.COOPERATE && action2 == PlayerActions.SWEAR)
-            return new long[]{0, 6};
+            return new long[]{-2, 2};
         else if(action1 == PlayerActions.SWEAR && action2 == PlayerActions.COOPERATE)
-            return new long[]{6, 0};
+            return new long[]{2, -2};
         else if(action1 == PlayerActions.SWEAR && action2 == PlayerActions.SWEAR)
-            return new long[]{3, 3};
+            return new long[]{-1, -1};
         else
             throw new IllegalStateException();
     }

@@ -10,7 +10,7 @@
       this.countCooperate = 0;
       this.countSwear = 0;
       this.countGoodV = 0;
-      this.countBadV = 0;
+      this.countWithMemory = 0;
       this.countEpochs = 1000;
       ctx = $("#myChart").get(0).getContext("2d");
       this.chart = new Chart(ctx);
@@ -48,8 +48,8 @@
         "random": $("#countRandom").val() - 0,
         "probability": $("#probability").val() - 0,
         "goodv": $("#countGoodV").val() - 0,
-        "badv": 0,
-        "epochs": 100
+        "withmemory": 0,
+        "epochs": $("#countGames").val() - 0
       });
       console.log(data);
       return $.ajax({

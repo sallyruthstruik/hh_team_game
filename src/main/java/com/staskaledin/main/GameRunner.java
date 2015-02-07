@@ -24,7 +24,9 @@ public class GameRunner {
     public GameRunner run(){
         for(int i=0; i<countEpochs; i++){
             game.doStep();
-            summaryStat.add(game.getSummaryScore()/game.getPlayersCount());
+//            summaryStat.add(game.getSummaryScore()/game.getPlayersCount());
+            summaryStat.add(game.getSummaryScore());
+
             productivityStat.add((double) game.getSummaryScore()/game.getTotalGamesCount());
         }
         return this;

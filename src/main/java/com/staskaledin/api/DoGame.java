@@ -1,6 +1,5 @@
 package com.staskaledin.api;
 
-import javax.annotation.Resource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -38,7 +37,7 @@ public class DoGame {
         int countRandom = data.getInt("random");
         float cooperateProb = (float) data.getDouble("probability");
         int countGoodV = data.getInt("goodv");
-        int countBadV = data.getInt("badv");
+        int countWithMemory = data.getInt("withmemory");
         int countEpochs = data.getInt("epochs");
 
 
@@ -48,7 +47,7 @@ public class DoGame {
                 .setCountRandom(countRandom)
                 .setCooperateProbability(cooperateProb)
                 .setCountGoodV(countGoodV)
-                .setCountBadV(countBadV)
+                .setCountWithMemory(countWithMemory)
                 .build();
 
         GameRunner gr = new GameRunner(game, countEpochs);

@@ -67,7 +67,7 @@ public class Game {
 
             int position;
             Random rand = new Random();
-            int count = rand.nextInt(players.size()/4);
+            int count = players.size()/2;
 
             @Override
             public boolean hasNext() {
@@ -94,7 +94,7 @@ public class Game {
     public void doStep(){
         System.out.println("Count players "+players.size());
 
-        Iterator<List<Player>> it = randomIterator();
+        Iterator<List<Player>> it = allIterator();
 
         while(it.hasNext()) {
             List<Player> pair = it.next();
@@ -122,7 +122,7 @@ public class Game {
 //    public double getAverageScoreForType(Class<T> type);
 
     public static class Builder{
-        long countCooperate, countSwear, countRandom, countGoodV, countBadV;
+        long countCooperate, countSwear, countRandom, countGoodV, countWithMemory;
         float cooperateProbability = 0.5f;
 
         public Builder setCountCooperate(long countCooperate) {
@@ -145,8 +145,8 @@ public class Game {
             return this;
         }
 
-        public Builder setCountBadV(long countBadV) {
-            this.countBadV = countBadV;
+        public Builder setCountWithMemory(long countWithMemory) {
+            this.countWithMemory = countWithMemory;
             return this;
         }
 
@@ -177,9 +177,9 @@ public class Game {
                 for(int i=0; i<countGoodV;i++)
                     game.addPlayer(new GoodVendettaPlayer());
             }
-            if(countBadV > 0){
-                for(int i=0; i<countBadV; i++)
-                    game.addPlayer(new BadVendettaPlayer());
+            if(countWithMemory > 0){
+                for(int i=0; i< countWithMemory; i++)
+                    game.addPlayer(new PlayerWithMemory());
             }
 
             if(game.players.size() <= 1)

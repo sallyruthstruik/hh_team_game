@@ -7,7 +7,7 @@ class @MainChart
         @countCooperate = 0
         @countSwear = 0
         @countGoodV = 0
-        @countBadV = 0
+        @countWithMemory = 0
         @countEpochs = 1000
 
         ctx = $("#myChart").get(0).getContext("2d");
@@ -39,8 +39,8 @@ class @MainChart
                "random": $("#countRandom").val() - 0,
                "probability": $("#probability").val() - 0,
                "goodv": $("#countGoodV").val() - 0,
-               "badv": 0,
-               "epochs": 100
+               "withmemory": 0,
+               "epochs": $("#countGames").val() - 0
            }
 
         console.log data

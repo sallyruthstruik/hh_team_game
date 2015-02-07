@@ -95,9 +95,29 @@ class GoodVendettaPlayer extends AbstractPlayer{
     }
 }
 
-class BadVendettaPlayer extends GoodVendettaPlayer{
+class PlayerWithMemory extends AbstractPlayer{
+
     @Override
-    protected PlayerActions defaultAction() {
-        return PlayerActions.SWEAR;
+    public PlayerActions getAction(Player player) {
+        List<PlayerActions> actions = history.get(player);
+        if(actions == null){
+            return PlayerActions.COOPERATE;
+        }
+
+        int countGood=0, countBad=0;
+
+        for(PlayerActions action : actions){
+            if(action == PlayerActions.COOPERATE)
+                countGood ++;
+            else
+                countBad ++;
+        }
+
+        if(countGood >= countBad)
+            return PlayerActions.COOPERATE;
+        else
+            return PlayerActions.SWEAR;
+
+
     }
 }
