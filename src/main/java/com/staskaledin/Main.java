@@ -31,12 +31,7 @@ public class Main {
             }
         }, "shutdownHook"));
 
-        try {
-            server.start();
-            System.out.println("Server started. Press <Enter> to stop it");
-            System.in.read();
-        }finally {
-            server.shutdown();
-        }
+        server.start();
+        Thread.currentThread().join();
     }
 }
