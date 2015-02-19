@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.staskaledin.main</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (com.staskaledin.main)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.staskaledin.main;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Created by stas on 05.02.15.
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public interface Player {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    PlayerActions getAction(Player player);
+<i>11</i>&nbsp;    void addResult(Player partner, PlayerActions myAction, PlayerActions partnerAction);
+<i>12</i>&nbsp;    long getPlayerScore();
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;}
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;abstract class AbstractPlayer implements Player {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    protected Map&lt;Player, LinkedList&lt;PlayerActions&gt;&gt; history = new HashMap&lt;Player, LinkedList&lt;PlayerActions&gt;&gt;();
+<i>19</i>&nbsp;    long summaryScore = 0;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public abstract PlayerActions getAction(Player player);
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public void addResult(Player partner, PlayerActions myAction, PlayerActions partnerAction) {
+<i>26</i>&nbsp;        if(history.get(partner) == null){
+<i>27</i>&nbsp;            history.put(partner, new LinkedList&lt;PlayerActions&gt;());
+<i>28</i>&nbsp;        }
+<i>29</i>&nbsp;        history.get(partner).addLast(partnerAction);
+<i>30</i>&nbsp;        summaryScore += new ScoreCounter(myAction, partnerAction).getPlayer1Score();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    protected PlayerActions getLastPartnerAction(Player partner){
+<i>35</i>&nbsp;        LinkedList&lt;PlayerActions&gt; list;
+<i>36</i>&nbsp;        if((list = history.get(partner)) != null){
+<i>37</i>&nbsp;            return list.getLast();
+<i>38</i>&nbsp;        }
+<i>39</i>&nbsp;        return null;
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public long getPlayerScore() {
+<i>43</i>&nbsp;        return summaryScore;
+<i>44</i>&nbsp;    };
+<i>45</i>&nbsp;}
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;class AlwaysCooperate extends AbstractPlayer{
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    public PlayerActions getAction(Player player) {
+<i>50</i>&nbsp;        return PlayerActions.COOPERATE;
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;}
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;class AlwaysSwear extends AbstractPlayer{
+<i>55</i>&nbsp;    @Override
+<i>56</i>&nbsp;    public PlayerActions getAction(Player player) {
+<i>57</i>&nbsp;        return PlayerActions.SWEAR;
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;}
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;class RandomAction extends AbstractPlayer{
+<i>62</i>&nbsp;    float coorepatePossibility;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public RandomAction(float coorepatePossibility) {
+<i>65</i>&nbsp;        if(Float.compare(coorepatePossibility, 0) &lt;= 0 ||
+<i>66</i>&nbsp;                Float.compare(coorepatePossibility, 1)&gt; 0)
+<i>67</i>&nbsp;            throw new IllegalArgumentException();
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;        this.coorepatePossibility = coorepatePossibility;
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Override
+<i>73</i>&nbsp;    public PlayerActions getAction(Player player) {
+<i>74</i>&nbsp;        Random rand = new Random();
+<i>75</i>&nbsp;        if(Float.compare(rand.nextFloat(), coorepatePossibility) &lt; 0)
+<i>76</i>&nbsp;            return PlayerActions.COOPERATE;
+<i>77</i>&nbsp;        else
+<i>78</i>&nbsp;            return PlayerActions.SWEAR;
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;}
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;class GoodVendettaPlayer extends AbstractPlayer{
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    @Override
+<i>85</i>&nbsp;    public PlayerActions getAction(Player player) {
+<i>86</i>&nbsp;        PlayerActions partnerAction;
+<i>87</i>&nbsp;        if(null == (partnerAction = getLastPartnerAction(player)))
+<i>88</i>&nbsp;            return defaultAction();
+<i>89</i>&nbsp;        else
+<i>90</i>&nbsp;            return partnerAction;
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    protected PlayerActions defaultAction() {
+<i>94</i>&nbsp;        return PlayerActions.COOPERATE;
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;}
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;class PlayerWithMemory extends AbstractPlayer{
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Override
+<i>101</i>&nbsp;    public PlayerActions getAction(Player player) {
+<i>102</i>&nbsp;        List&lt;PlayerActions&gt; actions = history.get(player);
+<i>103</i>&nbsp;        if(actions == null){
+<i>104</i>&nbsp;            return PlayerActions.COOPERATE;
+<i>105</i>&nbsp;        }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;        int countGood=0, countBad=0;
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;        for(PlayerActions action : actions){
+<i>110</i>&nbsp;            if(action == PlayerActions.COOPERATE)
+<i>111</i>&nbsp;                countGood ++;
+<i>112</i>&nbsp;            else
+<i>113</i>&nbsp;                countBad ++;
+<i>114</i>&nbsp;        }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;        if(countGood &gt;= countBad)
+<i>117</i>&nbsp;            return PlayerActions.COOPERATE;
+<i>118</i>&nbsp;        else
+<i>119</i>&nbsp;            return PlayerActions.SWEAR;
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-02-19 21:47</div>
+</div>
+</body>
+</html>
