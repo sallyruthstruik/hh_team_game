@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.staskaledin.test</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameTest (com.staskaledin.test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.staskaledin.test;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.staskaledin.main.Game;
+<i>4</i>&nbsp;import org.junit.Before;
+<i>5</i>&nbsp;import org.junit.Test;
+<i>6</i>&nbsp;import static org.junit.Assert.*;
+<i>7</i>&nbsp;import static org.mockito.Mockito.*;
+<i>8</i>&nbsp;
+<b class="fc"><i>9</i>&nbsp;public class GameTest {</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    private Game game;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    @Before
+<i>14</i>&nbsp;    public void setUp() throws Exception {
+<b class="fc"><i>15</i>&nbsp;        game = new Game.Builder()</b>
+<i>16</i>&nbsp;                .setCountSwear(1)
+<i>17</i>&nbsp;                .setCountCooperate(1)
+<i>18</i>&nbsp;                .setCountGoodV(1)
+<i>19</i>&nbsp;                .setCountRandom(1)
+<i>20</i>&nbsp;                .setCooperateProbability((float) 1)
+<i>21</i>&nbsp;                .setCountWithMemory(1)
+<i>22</i>&nbsp;                .build();
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Test
+<i>27</i>&nbsp;    public void testDoStep() throws Exception {
+<b class="fc"><i>28</i>&nbsp;        game.doStep();</b>
+<b class="fc"><i>29</i>&nbsp;        assertEquals(5, game.getPlayersCount());</b>
+<b class="fc"><i>30</i>&nbsp;        assertEquals(10, game.getTotalGamesCount());</b>
+<b class="fc"><i>31</i>&nbsp;        assertEquals(12, game.getSummaryScore());</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;        game.doStep();</b>
+<b class="fc"><i>34</i>&nbsp;        assertEquals(5, game.getPlayersCount());</b>
+<b class="fc"><i>35</i>&nbsp;        assertEquals(20, game.getTotalGamesCount());</b>
+<b class="fc"><i>36</i>&nbsp;        assertEquals(20, game.getSummaryScore());</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-02-19 21:47</div>
+</div>
+</body>
+</html>
