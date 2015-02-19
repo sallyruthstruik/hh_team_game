@@ -46,41 +46,12 @@ public class Game {
                 try {
                     return Arrays.asList(new Player[]{players.get(i), players.get(j)});
                 }finally {
-                    if(j == players.size()){
+                    if(j == players.size() - 1){
                         i ++;
                         j = i+1;
                     }else{
                         j++;
                     }
-                }
-            }
-
-            @Override
-            public void remove() {
-                throw new NotImplementedException();
-            }
-        };
-    }
-
-    private Iterator<List<Player>> randomIterator(){
-        return new Iterator<List<Player>>() {
-
-            int position;
-            Random rand = new Random();
-            int count = players.size()/2;
-
-            @Override
-            public boolean hasNext() {
-                return position < count;
-            }
-
-            @Override
-            public List<Player> next() {
-                try {
-                    return Arrays.asList(new Player[]{players.get(rand.nextInt(players.size())),
-                            players.get(rand.nextInt(players.size()))});
-                }finally {
-                    position ++ ;
                 }
             }
 
@@ -191,15 +162,5 @@ public class Game {
         }
     }
 
-    public static void main(String[] args){
-        Game game = new Game.Builder()
-                .setCountCooperate(10)
-                .setCountSwear(10)
-                .build();
-
-        game.doStep();
-        System.out.println(game.getSummaryScore());
-        System.out.println(game.getTotalGamesCount());
-    }
 
 }

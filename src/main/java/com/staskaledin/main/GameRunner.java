@@ -44,12 +44,4 @@ public class GameRunner {
         }
     }
 
-    public static void main(String[] arga){
-        Game game = new Game.Builder()
-                .setCountCooperate(10)
-                .setCountSwear(10)
-                .build();
-        System.out.println(new GameRunner(game, 100).run().getJsonStat());
-    }
-
 }
